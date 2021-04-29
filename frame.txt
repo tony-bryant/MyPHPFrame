@@ -1,5 +1,5 @@
 框架支持功能
-1.自动include 需要主要加载顺序bootstrap->core->dao->model->controller
+1.自动加载类/include 需要主要加载顺序bootstrap->core->dao->model->controller
 2.将请求路由到Controller的action中
 3.加载配置文件 例如database config
 4.全局捕获异常 ExceptionHandler

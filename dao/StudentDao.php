@@ -2,19 +2,10 @@
 
 namespace Dao;
 
-class StudentDao
+use core\Dao;
+
+class StudentDao extends Dao
 {
-    public $con;
-
-    function __construct() {
-        $this->con = mysqli_connect("localhost:3306", "root", "123456",
-            "message_board");
-    }
-
-    function __destruct() {
-        $this->con->close();
-    }
-
     public function getStudent() {
         $query = 'SELECT * FROM student';
         $result = $this->con->query($query);
