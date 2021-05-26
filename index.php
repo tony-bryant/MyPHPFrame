@@ -1,7 +1,11 @@
 <?php
 include 'bootstrap/Application.php';
 
-use Bootstrap\Application;
+use Core\Application;
+
+define("FRAME", __DIR__ . '/');
+define("CORE", FRAME . 'core/');
+define("APP", FRAME . 'app/');
 
 $app = Application::getAppInstance();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bootstrap;
+namespace Core;
 
 include 'util/DebugUtil.php';
 include 'core/Controller.php';
@@ -33,8 +33,6 @@ final class Application
             'controller'
         ];
 
-    const ENVIRONMENT = "dev";
-
     private static $app;
 
     private function __construct() {
@@ -49,67 +47,17 @@ final class Application
         return Application::$app;
     }
 
+    //自动加载类
     public function bootstrap() {
-        $this->initConfig();
-        $this->initExceptionHandler();
+        $this->initPlugins();
     }
 
     public function run() {
         $this->invokeAction();
     }
 
-    /**
-     * 根据环境初始化配置
-     *
-     * @return void
-     */
-    private function initConfig() {
-        if ("dev" === self::ENVIRONMENT) {
-            ini_set('display_errors', 1);
-            error_reporting(E_ALL);
-        }
-    }
+    private function initPlugins(){
 
-    /**
-     * 设置统一异常处理
-     *
-     * @return void
-     */
-    private function initExceptionHandler() {
-        set_exception_handler(function ($exception) {
-            header('Content-Type:application/json; charset=utf-8');
-            $result = array(
-                'code'    => $exception->getCode(),
-                'message' => $exception->getMessage()
-            );
-            exit(json_encode($result));
-        });
-    }
-
-    //自动加载类
-    private function loadFile() {
-        try {
-            foreach ($this::FOLDERS as $folder) {
-                $path = __DIR__ . '/' . $folder;
-                echo $path;
-                echo "<br>";
-                $handler = opendir($path);
-                while (($filename = readdir($handler)) !== false) {
-                    if ($filename != "." && $filename != "..") {
-                        echo $filename;
-                        echo "<br>";
-                    }
-                }
-//                include $file;
-            }
-        } catch (\Exception $e) {
-            //log($e);//打日志
-            return false;
-        }
-    }
-
-    private function loadController() {
-        return true;
     }
 
     /**
@@ -127,8 +75,6 @@ final class Application
         } catch (\Error $e) {
             //统一处理
             throw new \RuntimeException('类或方法不存在',403);
-//            DebugUtil::my_print_r($e);
-//            DebugUtil::my_print_r('类或方法不存在');
         }
     }
 }
